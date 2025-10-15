@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "Echoes of Time",
+    "slug": "echoes-of-time",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "main": "index.js",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#1a1a2e"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.echoesoftime.app"
+    },
+    "android": {
+      "package": "com.echoesoftime.app"
+    },
+    "web": {},
+    "scheme": "echoesoftime"
+  }
+}
