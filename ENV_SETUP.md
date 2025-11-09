@@ -16,11 +16,11 @@ The mobile app now connects to your real API server!
    # API Configuration
    # Set this to your API base URL (should include /api)
    
-   # For local development (if API is running on localhost:4000)
-   EXPO_PUBLIC_API_URL=http://localhost:4000/api
+   # For AWS Production Stack
+   EXPO_PUBLIC_API_URL=https://b5nrmnjvdb.execute-api.us-east-1.amazonaws.com/api
    
-   # For production
-   # EXPO_PUBLIC_API_URL=https://api.historyrelived.com/api
+   # For local development (if API is running on localhost:4000)
+   # EXPO_PUBLIC_API_URL=http://localhost:4000/api
    ```
 
 3. **Restart the Metro bundler** for changes to take effect:

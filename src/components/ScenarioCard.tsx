@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../theme';
 
@@ -8,7 +9,7 @@ interface ScenarioCardProps {
   subtitle: string;
   location: string;
   description: string;
-  imageUrl?: string;
+  imageUrl?: string | null;
   onBegin: () => void;
 }
 
@@ -21,6 +22,7 @@ export default function ScenarioCard({
   onBegin,
 }: ScenarioCardProps) {
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   const styles = StyleSheet.create({
     container: {
@@ -115,12 +117,12 @@ export default function ScenarioCard({
   });
 
   // Map imageUrl to actual image assets
-  const getImageSource = (imageName: string) => {
+  const getImageSource = (imageName: string | null | undefined) => {
     const images: { [key: string]: any } = {
       bastille: require('../../assets/bastille.png'),
       // Add more images here as they become available
     };
-    return images[imageName] || images.bastille; // Fallback to bastille
+    return images[imageName || 'bastille'] || images.bastille; // Fallback to bastille
   };
 
   return (
@@ -151,7 +153,7 @@ export default function ScenarioCard({
           
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.button} onPress={onBegin}>
-              <Text style={styles.buttonText}>BEGIN SCENARIO</Text>
+              <Text style={styles.buttonText}>{t('home.beginScenario')}</Text>
             </TouchableOpacity>
           </View>
         </View>

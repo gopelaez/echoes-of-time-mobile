@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import * as Clipboard from 'expo-clipboard';
 import { useTheme } from '../theme';
 import { useScenario } from '../store/ScenarioContext';
 import ScenarioCard from '../components/ScenarioCard';
 
 export default function HomeScreen() {
   const { theme } = useTheme();
+  const { t } = useTranslation();
   const { scenario, loading, error, refetchScenario } = useScenario();
 
   const handleBeginScenario = () => {
@@ -15,6 +18,16 @@ export default function HomeScreen() {
 
   const handleRetry = () => {
     refetchScenario();
+  };
+
+  const handleCopyError = async () => {
+    try {
+      await Clipboard.setStringAsync(error || 'No error message available');
+      Alert.alert('Copied', 'Error message copied to clipboard');
+    } catch (err) {
+      console.error('Failed to copy to clipboard:', err);
+      Alert.alert('Error', 'Failed to copy error message');
+    }
   };
 
   // Get today's date
@@ -89,6 +102,26 @@ export default function HomeScreen() {
       fontWeight: '600',
       letterSpacing: 1,
     },
+    buttonContainer: {
+      flexDirection: 'row',
+      gap: theme.spacing.md,
+      justifyContent: 'center',
+    },
+    copyButton: {
+      borderWidth: 1,
+      borderColor: '#ff6b6b',
+      borderRadius: 25,
+      paddingVertical: theme.spacing.md,
+      paddingHorizontal: theme.spacing.xl,
+      backgroundColor: 'transparent',
+    },
+    copyButtonText: {
+      fontSize: 14,
+      color: '#ff6b6b',
+      fontFamily: theme.typography.body,
+      fontWeight: '600',
+      letterSpacing: 1,
+    },
   });
 
   return (
@@ -100,7 +133,7 @@ export default function HomeScreen() {
       {/* Today's Date */}
       <View style={styles.dateHeader}>
         <Text style={styles.dateText}>{formattedDate}</Text>
-        <Text style={styles.tagline}>Your Echo Awaits</Text>
+        <Text style={styles.tagline}>{t('home.tagline')}</Text>
       </View>
 
       {/* Loading State */}
@@ -115,9 +148,14 @@ export default function HomeScreen() {
       {error && !loading && (
         <View style={styles.errorContainer}>
           <Text style={styles.errorText}>{error}</Text>
-          <TouchableOpacity style={styles.retryButton} onPress={handleRetry}>
-            <Text style={styles.retryButtonText}>TRY AGAIN</Text>
-          </TouchableOpacity>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.retryButton} onPress={handleRetry}>
+              <Text style={styles.retryButtonText}>TRY AGAIN</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.copyButton} onPress={handleCopyError}>
+              <Text style={styles.copyButtonText}>COPY ERROR</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       )}
 

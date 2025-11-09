@@ -9,12 +9,13 @@ Your mobile app is now integrated with your real Echoes of Time API!
 - ✅ Removed mock implementation (API only)
 - ✅ Handles 404 responses (no scenario assigned)
 - ✅ Proper error messages
-- ✅ Correct endpoint path: `/api/scenarios/today`
+- ✅ Correct endpoint path: `/api/{language}/calendar/today`
 
 ### 2. Configuration
 - ✅ Created environment variable documentation
 - ✅ App uses `EXPO_PUBLIC_API_URL` from `.env` file
-- ✅ Default mode set to 'api' (uses your real backend)
+- ✅ Updated for AWS stack endpoint
+- ✅ Endpoint: `/api/{language}/calendar/today`
 
 ## Quick Start
 
@@ -25,7 +26,11 @@ Create a `.env` file in the project root:
 ```bash
 # In the mobile app directory
 cat > .env << 'EOF'
-EXPO_PUBLIC_API_URL=http://localhost:4000
+# AWS Production Stack
+EXPO_PUBLIC_API_URL=https://b5nrmnjvdb.execute-api.us-east-1.amazonaws.com/api
+
+# For local development
+# EXPO_PUBLIC_API_URL=http://localhost:4000/api
 EOF
 ```
 

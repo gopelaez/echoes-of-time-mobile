@@ -4,8 +4,9 @@ export interface Scenario {
   subtitle: string;
   location: string;
   description: string;
-  imageUrl: string;
+  imageUrl: string | null;
   date: string; // ISO date string for the historical event
+  language: string; // Language code (en, es, fr, de, zh)
 }
 
 export interface ScenarioApiResponse {
