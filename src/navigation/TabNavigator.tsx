@@ -11,6 +11,7 @@ import HomeScreen from '../screens/HomeScreen';
 import { LivesScreen } from '../screens/LivesScreen';
 import { MontageScreen } from '../screens/MontageScreen';
 import { ProtagonistScreen } from '../screens/ProtagonistScreen';
+import { ChapterScreen } from '../screens/ChapterScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
@@ -28,6 +29,7 @@ function LivesStack() {
       <Stack.Screen name="LivesList" component={LivesScreen} />
       <Stack.Screen name="Montage" component={MontageScreen} />
       <Stack.Screen name="Protagonist" component={ProtagonistScreen} />
+      <Stack.Screen name="Chapter" component={ChapterScreen} />
     </Stack.Navigator>
   );
 }

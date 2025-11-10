@@ -27,6 +27,7 @@ const { width: screenWidth } = Dimensions.get('window');
 type RootStackParamList = {
   Montage: { personId: number };
   Protagonist: { personId: number; preloadedData?: ProtagonistDetail };
+  Chapter: { personId: number; chapterNumber: number };
 };
 
 type ProtagonistScreenRouteProp = RouteProp<RootStackParamList, 'Protagonist'>;
@@ -120,6 +121,14 @@ export const ProtagonistScreen: React.FC = () => {
 
   const handlePlayAgain = () => {
     setShowMontage(true);
+  };
+
+  const handleChapterPress = (chapterNumber: number) => {
+    if (!protagonist) return;
+    navigation.navigate('Chapter', {
+      personId: protagonist.id,
+      chapterNumber,
+    });
   };
 
   const handleMontageComplete = () => {
@@ -485,6 +494,7 @@ export const ProtagonistScreen: React.FC = () => {
                         }
                       ]}
                       activeOpacity={0.7}
+                      onPress={() => handleChapterPress(chapter.chapterNumber)}
                     >
                       <View style={[styles.chapterContent, isOdd ? styles.chapterContentLeft : styles.chapterContentRight]}>
                         {/* Figurine Image - Left for odd, Right for even */}

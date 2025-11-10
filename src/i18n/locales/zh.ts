@@ -34,6 +34,7 @@ export default {
   protagonist: {
     play_historical_context: "播放历史背景",
     chapters: "章节",
-    chapter: "章节"
+    chapter: "章节",
+    turning_point_decision: "转折点决策"
   }
 };

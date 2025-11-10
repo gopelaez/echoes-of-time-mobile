@@ -1,4 +1,4 @@
-import { Protagonist, ProtagonistPageResponse, ProtagonistPageError, ProtagonistDetail, ProtagonistDetailResponse, ProtagonistDetailError, MontageScene } from '../types/protagonist';
+import { Protagonist, ProtagonistPageResponse, ProtagonistPageError, ProtagonistDetail, ProtagonistDetailResponse, ProtagonistDetailError, MontageScene, ChapterDetail, ChapterDetailResponse, ChapterDetailError } from '../types/protagonist';
 import { SupportedLanguage, detectUserLanguage } from '../utils/languageDetection';
 
 /**
@@ -165,5 +165,67 @@ export function combineVoiceoverText(scenes: MontageScene[]): string {
   
   // Join with spaces to form a paragraph
   return texts.join(' ');
+}
+
+/**
+ * Fetch chapter detail data including scenes, events, and decisions
+ * @param personId - The protagonist ID
+ * @param chapterNumber - The chapter number (1, 2, 3, etc.)
+ * @param language - Language code (optional, defaults to detected language)
+ * @returns ChapterDetailResponse with full chapter data
+ */
+export async function fetchChapterDetail(
+  personId: number,
+  chapterNumber: number,
+  language?: SupportedLanguage
+): Promise<ChapterDetailResponse> {
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+  
+  if (!apiUrl) {
+    throw new Error('API URL not configured. Please set EXPO_PUBLIC_API_URL in your .env file.');
+  }
+  
+  const targetLanguage = language || detectUserLanguage();
+  
+  try {
+    const endpoint = `${apiUrl}/${targetLanguage}/app/chapters/${personId}/${chapterNumber}`;
+    console.log('🌐 Fetching chapter detail from:', endpoint);
+    
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    console.log('📡 Chapter detail response status:', response.status);
+    
+    if (response.status === 404) {
+      const errorData: ChapterDetailError = await response.json();
+      throw new Error(errorData.error || 'Chapter not found');
+    }
+    
+    if (response.status === 400) {
+      const errorData: ChapterDetailError = await response.json();
+      throw new Error(errorData.error || 'Invalid request parameters');
+    }
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data: ChapterDetailResponse = await response.json();
+    
+    if (!data.success) {
+      throw new Error('API returned unsuccessful response');
+    }
+    
+    console.log(`✅ Fetched chapter detail: Chapter ${data.chapterNumber} - ${data.chapter.title}`);
+    
+    return data;
+  } catch (error) {
+    console.error('Error fetching chapter detail from API:', error);
+    throw error;
+  }
 }
 

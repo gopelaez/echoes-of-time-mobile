@@ -11,7 +11,7 @@ export interface Period {
 }
 
 export interface Archetype {
-  id: number;
+id: number;
   slug: string;
   name: string;
   description: string;
@@ -89,6 +89,140 @@ export interface Chapter {
   figurinePrompt?: string | null;
   scenes?: MontageScene[];
   decisions?: any[];
+}
+
+/**
+ * Full Chapter Detail - Complete chapter data from API
+ */
+export interface ChapterDetail {
+  id: number;
+  chapterNumber: number;
+  title: string;
+  yearsCovered: string | null;
+  chapterDescription: string | null;
+  historicalContext: string | null;
+  finalWords: string | null;
+  cinematicMetadata: {
+    voiceoverSummary: string | null;
+    musicBrief: string | null;
+  } | null;
+  storyBeats: Array<{
+    index: number;
+    type: 'cinematic' | 'historicalEvent' | 'decision';
+    sceneId?: number;
+    eventId?: number;
+    decisionId?: number;
+  }> | null;
+  figurinePrompt: string | null;
+  figurineUrl: string | null;
+  status: string;
+  language: string;
+  scenes: MontageScene[];
+  historicalEvents: HistoricalEvent[];
+  decisions: Decision[];
+  sceneImages: Array<{
+    sceneIndex: number;
+    sceneId: number;
+    imageUrl: string;
+  }>;
+  sceneAudio: Array<{
+    sceneIndex: number;
+    audioUrl: string;
+  }>;
+}
+
+export interface HistoricalEvent {
+  id: number;
+  title: string;
+  year: number;
+  month: number | null;
+  day: number | null;
+  locations: string[];
+  description: string | null;
+  coverImage: string | null;
+  coverPrompt: string | null;
+  historicalEventId: string | null;
+  historicalEventTitle: string | null;
+  chapterOrder: number | null;
+  historicalContextMetadata: {
+    imageStyle: string | null;
+    totalDurationMs: number | null;
+  } | null;
+  scenes: MontageScene[];
+}
+
+export interface Decision {
+  id: number;
+  title: string;
+  year: number;
+  month: number | null;
+  day: number | null;
+  locations: string[];
+  description: string | null;
+  coverImage: string | null;
+  coverPrompt: string | null;
+  historicalContextMetadata: {
+    imageStyle: string | null;
+    totalDurationMs: number | null;
+    musicBrief: string | null;
+  } | null;
+  voiceType: string | null;
+  reflectionQuestion: string | null;
+  sourceType: string;
+  sourceChapterId: number | null;
+  historicalEventId: string | null;
+  sourceEventId: number | null;
+  status: string;
+  choices: Choice[];
+  citations: Citation[];
+  scenes: MontageScene[];
+}
+
+export interface Choice {
+  id: string;
+  text: string;
+  description: string;
+  consequences: string;
+  orderIndex: number;
+  immediateOutcome: string | null;
+  longTermImpact: string | null;
+  historicalChoice: boolean;
+  realityCheck: string | null;
+  whatIf: string | null;
+  imagePrompt: string | null;
+  imageUrl: string | null;
+}
+
+export interface Citation {
+  id: string;
+  title: string;
+  url: string;
+  description: string;
+  reliability: 'high' | 'medium' | 'low';
+}
+
+export interface ChapterDetailResponse {
+  success: true;
+  chapter: ChapterDetail;
+  personId: number;
+  chapterNumber: number;
+  language: string;
+  protagonist: {
+    id: number;
+    name: string;
+    birthYear: number | null;
+    deathYear: number | null;
+    protagonistPortraitUrl: string | null;
+    worldImageUrl: string | null;
+  };
+}
+
+export interface ChapterDetailError {
+  success: false;
+  error: string;
+  message?: string;
+  personId?: number;
+  chapterNumber?: number;
 }
 
 /**

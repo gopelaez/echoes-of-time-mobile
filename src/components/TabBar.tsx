@@ -41,11 +41,11 @@ export default function TabBar() {
       const activeTabIndex = navigationState.index ?? 0;
       const currentRoute = navigationState.routes[activeTabIndex];
       
-      // Check if we're on the Montage or Protagonist screen
+      // Check if we're on the Montage, Protagonist, or Chapter screen
       let hideTabBar = false;
       if (currentRoute?.name === 'Lives' && currentRoute.state) {
         const focusedRoute = currentRoute.state.routes[currentRoute.state.index];
-        hideTabBar = focusedRoute?.name === 'Montage' || focusedRoute?.name === 'Protagonist';
+        hideTabBar = focusedRoute?.name === 'Montage' || focusedRoute?.name === 'Protagonist' || focusedRoute?.name === 'Chapter';
       }
       
       setShouldHideTabBar(hideTabBar);
@@ -59,7 +59,7 @@ export default function TabBar() {
       let hideTabBar = false;
       if (currentRoute?.name === 'Lives' && currentRoute.state) {
         const focusedRoute = currentRoute.state.routes[currentRoute.state.index];
-        hideTabBar = focusedRoute?.name === 'Montage' || focusedRoute?.name === 'Protagonist';
+        hideTabBar = focusedRoute?.name === 'Montage' || focusedRoute?.name === 'Protagonist' || focusedRoute?.name === 'Chapter';
       }
       setShouldHideTabBar(hideTabBar);
     }

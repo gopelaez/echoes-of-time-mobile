@@ -34,6 +34,7 @@ export default {
   protagonist: {
     play_historical_context: "Reproducir Contexto Histórico",
     chapters: "Capítulos",
-    chapter: "Capítulo"
+    chapter: "Capítulo",
+    turning_point_decision: "Decisión de Punto de Inflexión"
   }
 };
